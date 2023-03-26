@@ -1,0 +1,38 @@
+on:
+  push:
+    branches: ["develop"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+name: CI 
+
+jobs:
+  # This workflow contains multiple jobs
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        
+        # Docker login
+      - name: Login to DockerHub
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      # Docker build
+      - name: Build django and push
+        run: |
+          docker build . -t ${{secrets.DOCKER_USER}}/django
+          docker push ${{secrets.DOCKER_USER}}/django
+          
+      - name: Build nginx and push
+        run: |
+          docker build -f ./nginx/Dockerfile -t ${{secrets.DOCKER_USER}}/nginx
+          docker push ${{secrets.DOCKER_USER}}/nginx
