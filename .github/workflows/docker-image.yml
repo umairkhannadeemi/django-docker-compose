@@ -34,5 +34,5 @@ jobs:
           
       - name: Build nginx and push
         run: |
-          docker build -f ./nginx/Dockerfile -t ${{secrets.DOCKER_USER}}/nginx
+          docker build -f Dockerfile ./nginx -t ${{secrets.DOCKER_USER}}/nginx
           docker push ${{secrets.DOCKER_USER}}/nginx
