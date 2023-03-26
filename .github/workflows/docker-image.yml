@@ -29,11 +29,11 @@ jobs:
       # Docker build
       - name: Build django and push
         run: |
-          docker build . -t ${{secrets.DOCKER_USER}}/django
-          docker push ${{secrets.DOCKER_USER}}/django
+          docker build . -t ${{secrets.DOCKER_USER}}/django:1.1.0
+          docker push ${{secrets.DOCKER_USER}}/django:1.1.0
           
       - name: Build nginx and push
         run: |
           cd nginx
-          docker build . -t ${{secrets.DOCKER_USER}}/nginx
-          docker push ${{secrets.DOCKER_USER}}/nginx
+          docker build . -t ${{secrets.DOCKER_USER}}/nginx:1.1.0
+          docker push ${{secrets.DOCKER_USER}}/nginx:1.1.0
